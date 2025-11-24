@@ -1,6 +1,5 @@
-import { notifyOwner } from "./_core/notification";
 import { getDb } from "./db";
-import { users } from "../drizzle/schema";
+import { users } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 
 /**

@@ -2,7 +2,7 @@ import express from 'express';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import { appRouter } from './api/index';
 import { ENV } from './_core/env';
-import { stripeWebhook } from './routes/stripeWebhook';
+import { handleStripeWebhook } from './routes/stripeWebhook';
 import cors from 'cors';
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors({
 }));
 
 // Stripe webhook (must be before body parser)
-app.post('/api/webhook/stripe', express.raw({ type: 'application/json' }), stripeWebhook);
+app.post('/api/webhook/stripe', express.raw({ type: 'application/json' }), handleStripeWebhook);
 
 // Body parser for JSON
 app.use(express.json());

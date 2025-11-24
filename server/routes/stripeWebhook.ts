@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import Stripe from "stripe";
-import { getDb } from "./db";
-import { payments } from "../drizzle/schema";
+import { getDb } from "../lib/db";
+import { payments } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
-import { createNotification } from "./db";
-import { notifyAdmin } from "./notifications";
+import { createNotification } from "../lib/db";
+import { notifyAdmin } from "../lib/notifications";
 
 // Initialize Stripe
 let stripe: Stripe | null = null;

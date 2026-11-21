@@ -1,0 +1,21 @@
+{
+  "id": "/nael-mobile/",
+  "name": "نائل | NAEL Mobile",
+  "short_name": "نائل",
+  "description": "NAEL Command Center — secure business shortcuts for iPhone",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "lang": "ar-EG",
+  "dir": "rtl",
+  "background_color": "#f4f7fa",
+  "theme_color": "#102b44",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

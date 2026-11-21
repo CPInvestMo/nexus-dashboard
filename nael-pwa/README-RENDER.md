@@ -1,0 +1,1 @@
+NAEL public-safe PWA shell. Do not upload private/ or user records. Google Spreadsheet ID and OAuth Client ID configured in Settings on owner device. No backend server, no WhatsApp API integration. User must authorize via Google. The static shell is public, imported data stays client-side. Do not confuse with production private server.

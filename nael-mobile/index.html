@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e2135"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="نائل">
+<meta name="description" content="لوحة نائل للمهام والمتابعات والفرص، مختصرة وسهلة على iPhone."><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>نائل | NAEL Mobile</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#16283b;background:#f4f7fa;--blue:#112b42;--gold:#d7ac64;--ink:#14283c;--muted:#6b7f8e;--line:#e5edf0}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}a{text-decoration:none;color:inherit}
+.shell{width:min(1080px,100%);margin:auto;padding:0 16px 112px}.hero{margin:14px 0 18px;padding:25px 23px 24px;background:linear-gradient(130deg,#102b44,#1f4660);color:white;border-radius:24px;position:relative;overflow:hidden;box-shadow:0 16px 34px #1438551a}
+.hero:before{content:"N.";font-weight:900;color:#ffffff0c;position:absolute;font-size:180px;line-height:1;left:-22px;top:-20px;letter-spacing:-12px}
+.brand{font-size:12px;font-weight:750;letter-spacing:1.8px;color:#ead1a5}.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px}.owner{font-size:11px;color:#ccdae4}.hero h1{font-size:31px;margin:24px 0 8px;line-height:1.25}.hero p{font-size:14px;line-height:1.8;max-width:500px;color:#d7e4ed;margin:0}.heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;position:relative}
+.primary,.ghost,.mini{border:0;border-radius:12px;min-height:44px;padding:11px 16px;font-weight:750;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.primary{background:var(--gold);color:#122538}.ghost{background:#ffffff15;color:white;border:1px solid #ffffff35}.mini{background:#e9f2f7;color:#16405a}
+.section{margin-top:20px}.sectionhead{display:flex;align-items:end;justify-content:space-between;margin:0 0 12px;gap:10px}.section h2{font-size:17px;margin:0;color:#152d41}.hint{font-size:12px;color:var(--muted);line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 7px 24px #18426408;display:flex;flex-direction:column;gap:9px;min-height:142px}
+.cardlink:active{transform:scale(.99)}.icon{width:39px;height:39px;display:grid;place-items:center;background:#eaf0f3;border-radius:12px;font-size:19px}.card strong{font-size:15px}.card small{color:var(--muted);line-height:1.65;font-size:12px}.card .go{color:#0b6b91;font-weight:750;font-size:12px;margin-top:auto}.wide{grid-column:1/-1}
+.notice{background:#fff9e8;border:1px solid #ead9ad;border-radius:16px;padding:14px;color:#65531b;line-height:1.7;font-size:12px}
+.links{display:grid;grid-template-columns:1fr;gap:10px}.linkrow{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);padding:15px;border-radius:15px;min-height:72px}
+.linkrow .icon{flex:none}.linkrow .txt{flex:1}.linkrow strong{display:block;margin-bottom:4px;font-size:14px}.linkrow small{color:#667d8f;font-size:12px;line-height:1.5}.arrow{font-weight:700;color:#0d6586}
+.tag{font-size:11px;font-weight:750;background:#fff0d9;color:#8a5b19;border-radius:999px;padding:6px 9px;display:inline-flex;align-items:center}.tag.good{background:#e5f5ef;color:#237555}.tag.gray{background:#edf0f3;color:#5a6b77}
+.status{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:12px 0}.status:last-child{border:0}
+.panel{background:white;border:1px solid var(--line);padding:17px;border-radius:17px}.status b{font-size:13px}.status small{font-size:11px;color:var(--muted);display:block;padding-top:4px}
+.nav{position:fixed;z-index:2;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(16px);border-top:1px solid #dce7ec;display:flex;justify-content:space-around;gap:2px;padding:9px 9px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -8px 28px #183a5210}
+.nav button{appearance:none;border:0;background:transparent;border-radius:14px;flex:1;min-width:0;padding:10px 3px;color:#6b8190;cursor:pointer;display:grid;gap:4px;place-items:center;font-size:10px;font-weight:720}.nav button span:first-child{font-size:21px}.nav button.active{color:#123b5c;background:#e9f3fa}
+[data-view]{display:none}[data-view].active{display:block}.footer{font-size:11px;line-height:1.8;color:#7a8e9c;text-align:center;margin:28px auto}
+input{width:100%;padding:12px 13px;border:1px solid #cbd9e0;border-radius:12px;background:white;outline-offset:3px;color:#15324a}
+.formrow{display:flex;gap:8px;align-items:center}.formrow input{flex:1;min-width:0}.formrow button{flex:none}
+.miniLink{color:#0b698e;font-weight:750}.warning{color:#9b5e16;font-size:12px}
+@media(min-width:700px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.shell{padding:0 28px 115px}.hero{padding:35px}.hero h1{font-size:39px}.links{grid-template-columns:repeat(2,minmax(0,1fr))}.nav{width:min(650px,calc(100% - 40px));border-radius:25px 25px 0 0;left:50%;right:auto;transform:translateX(-50%)}}
+</style></head><body>
+<div class="shell">
+<header class="hero"><div class="toprow"><div class="brand">NAEL <span style="color:var(--gold)">•</span> COMMAND CENTER</div><div class="owner">CRYSTAL POWER INVESTMENTS</div></div><h1>نائل، كل شغلك في مكان واحد.</h1><p>افتح المهام، المطابقات، الرسائل، المواعيد، والموافقات من موبايلك. مش محتاج تفويض لموقع وسيط علشان تفتح روابط الشغل.</p><div class="heroActions"><a class="primary" id="heroSheet" href="#" target="_blank" rel="noopener">فتح داشبورد نائل ↗</a><button class="ghost" onclick="navigate('tasks')">المهام والمتابعات</button></div></header>
+<main>
+<section data-view="home" class="active">
+<div class="notice">خصوصية البيانات: الموقع ده واجهة اختصارات فقط. بيانات العملاء محفوظة في Google Sheets بصلاحيات حسابك، ومش منشورة هنا. مزامنة واتساب التلقائية لسه غير مفعّلة.</div>
+<div class="section"><div class="sectionhead"><h2>غرفة القيادة</h2><span class="hint">اختصارات مباشرة</span></div><div class="cards" id="homeCards"></div></div>
+<div class="section"><div class="sectionhead"><h2>حالة الأنظمة</h2><span class="hint">آخر حالة مؤكدة، مش بث مباشر</span></div><div class="panel">
+<div class="status"><div><b>Google Sheets / نائل</b><small>سجل المهام والمتابعات قابل للفتح بحساب Google</small></div><span class="tag good">متاح</span></div>
+<div class="status"><div><b>Outlook</b><small>الإيميل والتقويم من روابطهما الرسمية</small></div><span class="tag good">متاح</span></div>
+<div class="status"><div><b>Meta Business Agent</b><small>بيرد على واتساب بحسب تقرير الـAgent</small></div><span class="tag">ربط نائل ناقص</span></div>
+<div class="status"><div><b>التطبيق المستقل + ربط الرسائل</b><small>واجهة الموبايل جاهزة، لكن الـAPI الحقيقي يحتاج اعتماد منفصل</small></div><span class="tag gray">قيد الربط</span></div></div></div>
+</section>
+<section data-view="tasks"><div class="section"><div class="sectionhead"><h2>المهام والفرص</h2></div><p class="hint">المعلومات الحية تتفتح من ملف نائل الأصلي. أرقام العملاء محمية بصلاحيات Google.</p><div class="links" id="tasksLinks"></div></div></section>
+<section data-view="outreach"><div class="section"><div class="sectionhead"><h2>الرسائل والمتابعات</h2></div><div class="notice">أي رسالة موجودة في قائمة واتساب هي مسودة للمراجعة. فتح الرسالة مش معناه إنها اتبعت. لا يوجد إرسال أوتوماتيكي من التطبيق.</div><div class="links" id="outreachLinks" style="margin-top:14px"></div></div></section>
+<section data-view="channels"><div class="section"><div class="sectionhead"><h2>كل القنوات</h2></div><div class="links" id="channelLinks"></div></div></section>
+<section data-view="settings"><div class="section"><div class="sectionhead"><h2>إعدادات بسيطة</h2></div><div class="panel"><h3 style="margin:0 0 10px">ملف Google Sheets</h3><p class="hint">الملف الأساسي متوصل كاختصار. لو نقلت نائل لملف جديد، الصق رابط Google Sheet الجديد هنا على جهازك فقط.</p><div class="formrow"><input id="sheetInput" type="url" dir="ltr" placeholder="https://docs.google.com/spreadsheets/d/..."><button class="mini" onclick="saveSheet()">حفظ</button></div><div style="margin-top:12px"><button class="mini" onclick="resetSheet()">استرجاع الملف الأساسي</button></div><p id="saveStatus" class="hint"></p></div>
+<div class="panel" style="margin-top:12px"><h3 style="margin:0 0 8px">تثبيت على iPhone</h3><p class="hint">افتح رابط التطبيق في Safari ← اضغط مشاركة ← Add to Home Screen / إضافة إلى الشاشة الرئيسية ← Add. هيظهر نائل كأيقونة تطبيق.</p><p class="warning">لو Gmail أو Outlook طلب تسجيل دخول، ده تسجيل الدخول الرسمي للخدمة نفسها، مش تفويض لموقع نائل.</p></div>
+</div></section>
+</main><div class="footer">NAEL Mobile • Independent from MatchPro • No public client data • No automatic external sending</div></div>
+<nav class="nav" aria-label="القائمة الرئيسية">
+<button data-nav="home" class="active" onclick="navigate('home')"><span>⌂</span><span>الرئيسية</span></button>
+<button data-nav="tasks" onclick="navigate('tasks')"><span>☷</span><span>المهام</span></button>
+<button data-nav="outreach" onclick="navigate('outreach')"><span>◉</span><span>واتساب</span></button>
+<button data-nav="channels" onclick="navigate('channels')"><span>▦</span><span>القنوات</span></button>
+<button data-nav="settings" onclick="navigate('settings')"><span>⚙</span><span>الإعدادات</span></button>
+</nav>
+<script>
+(function(){
+'use strict';
+const base='https://docs.google.com/spreadsheets/d/1sxL2q-ZnRIrXnIsxuIwgHMOy1-XOdxmsmWUP26YBKpg/edit';
+let sheet=base;try{const v=localStorage.getItem('nael.mobile.sheet');if(v&&/^https:\/\/docs\.google\.com\/spreadsheets\/d\/[A-Za-z0-9_-]+\/edit/.test(v))sheet=v;}catch(e){}
+const urls={sheet:sheet,tasks:sheet+'#gid=2026112194',outreach:sheet+'#gid=2026112197',qa:sheet+'#gid=2026112196',integrations:sheet+'#gid=11382952',outlook:'https://outlook.office.com/mail/',calendar:'https://outlook.office.com/calendar/',meta:'https://business.facebook.com/latest/whatsapp_manager/',business:'https://business.facebook.com/',instagram:'https://www.instagram.com/cpiexport/',freelance:'https://www.freelancer.com/',upwork:'https://www.upwork.com/',chatgpt:'https://chatgpt.com/'};
+const tiles=[
+{section:'home',icon:'☷',name:'مهام نائل',hint:'المتابعات والفرص الأقرب للإيراد',type:'tasks'},
+{section:'home',icon:'◉',name:'رسائل واتساب',hint:'مسودات المتابعة والموافقات',type:'outreach'},
+{section:'home',icon:'✉',name:'البريد',hint:'Outlook وتقارير MatchPro',type:'outlook'},
+{section:'home',icon:'◷',name:'المواعيد',hint:'Outlook Calendar',type:'calendar'},
+{section:'home',icon:'▣',name:'حالة الربط',hint:'سجل اختبارات NAEL',type:'integrations'},
+{section:'home',icon:'▤',name:'جميع الملفات',hint:'Google Sheets الأصلي',type:'sheet'}
+];
+const taskTiles=[
+{icon:'☷',name:'كل المهام',hint:'قائمة المهام والأولويات',type:'tasks'},
+{icon:'⚑',name:'التحقق والموافقات',hint:'افتح السجل وراجع حالة كل مهمة',type:'tasks'},
+{icon:'◉',name:'طلبات العملاء والعروض',hint:'المصدر: التقارير المعتمدة',type:'sheet'},
+{icon:'▣',name:'اختبارات الربط',hint:'حالة Meta وGoogle والـAPI',type:'integrations'},
+{icon:'▤',name:'سجل نائل الكامل',hint:'كل التبويبات والبيانات الخاصة',type:'sheet'}];
+const outreachTiles=[
+{icon:'◉',name:'مسودات واتساب',hint:'أرقام التواصل والرسائل الجاهزة في الشيت الخاص',type:'outreach'},
+{icon:'▣',name:'WhatsApp Business Manager',hint:'إدارة الرقم والـAgent الحالي',type:'meta'},
+{icon:'✉',name:'Outlook',hint:'رسائل العقارات والعملاء',type:'outlook'},
+{icon:'◷',name:'المواعيد',hint:'الحجوزات المسجلة في التقويم',type:'calendar'}];
+const channelTiles=[
+{icon:'▤',name:'نائل — Google Sheets',hint:'الداشبورد الأصلية',type:'sheet'},
+{icon:'✉',name:'Outlook Mail',hint:'الإيميل والتقارير',type:'outlook'},
+{icon:'◷',name:'Outlook Calendar',hint:'المواعيد والاجتماعات',type:'calendar'},
+{icon:'◉',name:'WhatsApp Business',hint:'إدارة واتساب Meta',type:'meta'},
+{icon:'▦',name:'Meta Business',hint:'Facebook وInstagram',type:'business'},
+{icon:'▦',name:'Instagram CPI',hint:'@cpiexport',type:'instagram'},
+{icon:'◈',name:'Freelancer',hint:'فرص العمل الحر',type:'freelance'},
+{icon:'◈',name:'Upwork',hint:'عروض ومشروعات',type:'upwork'},
+{icon:'▣',name:'NAEL QA',hint:'اختبارات التكامل',type:'qa'},
+{icon:'◇',name:'ChatGPT',hint:'فتح نائل ومتابعة التنفيذ',type:'chatgpt'}];
+const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function card(t,compact){return '<a class="'+(compact?'linkrow':'card cardlink')+'" href="'+escape(urls[t.type])+'" target="_blank" rel="noopener noreferrer"><div class="icon">'+t.icon+'</div><div class="'+(compact?'txt':'')+'"><strong>'+escape(t.name)+'</strong><br><small>'+escape(t.hint)+'</small></div><span class="'+(compact?'arrow':'go')+'">فتح ↗</span></a>'}
+function repaint(){document.getElementById('heroSheet').href=urls.sheet;document.getElementById('homeCards').innerHTML=tiles.map(t=>card(t,false)).join('');document.getElementById('tasksLinks').innerHTML=taskTiles.map(t=>card(t,true)).join('');document.getElementById('outreachLinks').innerHTML=outreachTiles.map(t=>card(t,true)).join('');document.getElementById('channelLinks').innerHTML=channelTiles.map(t=>card(t,true)).join('');document.getElementById('sheetInput').value=sheet;}
+window.navigate=function(route){document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===route));document.querySelectorAll('[data-nav]').forEach(x=>x.classList.toggle('active',x.dataset.nav===route));window.scrollTo({top:0,behavior:'instant'});};
+window.saveSheet=function(){const raw=document.getElementById('sheetInput').value.trim();if(!/^https:\/\/docs\.google\.com\/spreadsheets\/d\/[A-Za-z0-9_-]+\/(edit|view)/.test(raw)){document.getElementById('saveStatus').textContent='رابط Google Sheet غير صحيح';return;}sheet=raw.split('#')[0];urls.sheet=sheet;urls.tasks=sheet+'#gid=2026112194';urls.outreach=sheet+'#gid=2026112197';urls.qa=sheet+'#gid=2026112196';urls.integrations=sheet+'#gid=11382952';try{localStorage.setItem('nael.mobile.sheet',sheet);}catch(e){}repaint();document.getElementById('saveStatus').textContent='اتحفظ الرابط على الجهاز. المحتوى نفسه ما اتنقلش للموقع.';};
+window.resetSheet=function(){sheet=base;urls.sheet=sheet;urls.tasks=sheet+'#gid=2026112194';urls.outreach=sheet+'#gid=2026112197';urls.qa=sheet+'#gid=2026112196';urls.integrations=sheet+'#gid=11382952';try{localStorage.removeItem('nael.mobile.sheet');}catch(e){}repaint();document.getElementById('saveStatus').textContent='رجعنا للملف الأساسي.';};
+repaint();
+})();
+</script>
+</body></html>

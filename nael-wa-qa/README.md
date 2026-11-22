@@ -9,13 +9,13 @@ This directory is standalone. No linkage to NAEL or MatchPro production backends
 - GET /health: confirms QA status without revealing credentials.
 - GET /webhook: validates hub.mode=subscribe, constant-time checks hub.verify_token, echoes hub.challenge.
 - POST /webhook: verifies X-Hub-Signature-256 HMAC-SHA256 over raw bytes before JSON parsing.
-- Isolated SQLite-backed Durable Object deduplicates hashed keys; 24h maximum retention via probabilistic cleanup.
+- Isolated SQLite-backed Durable Object deduplicates hashed keys; 24h event-key retention via per-event expiration cleanup.
 - No outgoing messages, CRM writes, Meta Graph calls, or raw customer data storage.
 - QA_ONLY=true is mandatory; missing secrets/binding fail closed.
 
 ## Unit tests (synthetic data only)
-From this directory: node --test test/worker.test.mjs
-Test plan: disabled default; valid/invalid GET; signed POST, duplicate replay, wrong HMAC, altered payload, bad JSON, oversized body, unsupported route.
+From this directory: npm test (node --test test/*.test.mjs)
+Test plan: disabled default; valid/invalid GET; signed POST, duplicate replay, wrong HMAC, altered payload, bad JSON, oversized body, unsupported route; signed JSON null; malformed entry; event count overflow; Durable Object with mock SQLite. The local Node tests passed 11/11 on 22 Nov 2026; this is not a deployed Cloudflare runtime test.
 
 ## Cloudflare Free — requires separate approval
 1. Select the owner's Cloudflare Free account. Deploy a NEW Worker named nael-whatsapp-webhook-qa, not any production Worker.
@@ -42,4 +42,4 @@ Baileys QR is unofficial WhatsApp Web linked-device login and does not perform t
 - [ ] Separate explicit owner approval before real WABA webhook subscription
 - [ ] Separate explicit owner approval before outbound messaging
 
-No live Meta integration is claimed.
+No live Meta integration is claimed. See QA_REPORT_2026-11-22.md for exact local results, limits and outstanding QA gates.

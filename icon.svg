@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="NAEL">
+<rect width="512" height="512" rx="102" fill="#09111e"/>
+<rect x="36" y="36" width="440" height="440" rx="85" fill="#12243b" stroke="#d8b46a" stroke-width="12"/>
+<path d="M131 356V156l250 200V156" fill="none" stroke="#eaf3ff" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="381" cy="156" r="21" fill="#d8b46a"/>
+</svg>

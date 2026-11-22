@@ -1,4 +1,4 @@
-"""Safe local test of NAEL D1 migration using standard-library SQLite.
+"""Safe local test of NAEL D1 migrations using standard-library SQLite.
 This verifies SQL syntax, persistence, FK/CHECK and unique-key semantics.
 It does NOT verify deployed Cloudflare D1 or production uptime.
 """
@@ -8,7 +8,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-SCHEMA = (Path(__file__).resolve().parents[1] / "migrations" / "0001_core_d1.sql").read_text(encoding="utf-8")
+MIGRATIONS = [
+    (Path(__file__).resolve().parents[1] / "migrations" / "0001_core_d1.sql").read_text(encoding="utf-8"),
+    (Path(__file__).resolve().parents[1] / "migrations" / "0002_task_workflow.sql").read_text(encoding="utf-8"),
+]
+
 
 class TestSchema(unittest.TestCase):
     def setUp(self):
@@ -16,18 +20,21 @@ class TestSchema(unittest.TestCase):
         os.close(fd)
         self.db = sqlite3.connect(self.path)
         self.db.execute("PRAGMA foreign_keys=ON")
-        self.db.executescript(SCHEMA)
+        for migration in MIGRATIONS:
+            self.db.executescript(migration)
 
     def tearDown(self):
         self.db.close()
         os.remove(self.path)
 
     def test_tables_and_repeatable_migration(self):
-        self.db.executescript(SCHEMA)
+        for migration in MIGRATIONS:
+            self.db.executescript(migration)
         expected = {
-            "users","projects","agents","tasks","automation_schedules",
-            "execution_runs","approvals","integration_connections",
-            "opportunities","financial_records","audit_logs","documents",
+            "users", "projects", "agents", "tasks", "automation_schedules",
+            "execution_runs", "approvals", "integration_connections",
+            "opportunities", "financial_records", "audit_logs", "documents",
+            "task_sources", "task_evidence",
         }
         actual = {r[0] for r in self.db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
         self.assertTrue(expected.issubset(actual))
@@ -39,14 +46,17 @@ class TestSchema(unittest.TestCase):
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.execute("INSERT INTO tasks(id,project_id,title,task_state) VALUES('t-invalid','p1','Invalid','MADE_UP')")
         self.db.execute("INSERT INTO tasks(id,project_id,title) VALUES('t1','p1','Internal database self-check')")
+        self.db.execute("INSERT INTO task_sources(id,task_id,source_type,source_ref) VALUES('s1','t1','MANUAL','qa://source')")
+        self.db.execute("INSERT INTO task_evidence(id,task_id,evidence_type,label,value,created_by) VALUES('ev1','t1','NOTE','QA note','synthetic','qa')")
         self.db.execute("INSERT INTO execution_runs(execution_id,target_type,target_id,idempotency_key,execution_state) VALUES('e1','TASK','t1','test-key-12345','SUCCEEDED')")
         self.db.execute("INSERT INTO audit_logs(id,actor,action_name,entity_type,entity_id,execution_id,outcome) VALUES('a1','qa','DB_SELF_CHECK','TASK','t1','e1','SUCCEEDED')")
         self.db.commit()
         self.db.close()
         self.db = sqlite3.connect(self.path)
         self.db.execute("PRAGMA foreign_keys=ON")
-        self.assertEqual(self.db.execute("SELECT execution_state FROM execution_runs WHERE execution_id='e1'").fetchone()[0],"SUCCEEDED")
-        self.assertEqual(self.db.execute("SELECT COUNT(*) FROM audit_logs WHERE execution_id='e1'").fetchone()[0],1)
+        self.assertEqual(self.db.execute("SELECT execution_state FROM execution_runs WHERE execution_id='e1'").fetchone()[0], "SUCCEEDED")
+        self.assertEqual(self.db.execute("SELECT COUNT(*) FROM audit_logs WHERE execution_id='e1'").fetchone()[0], 1)
+        self.assertEqual(self.db.execute("SELECT COUNT(*) FROM task_evidence WHERE task_id='t1'").fetchone()[0], 1)
 
     def test_idempotency_and_approval_enums(self):
         self.db.execute("INSERT INTO execution_runs(execution_id,target_type,target_id,idempotency_key) VALUES('e1','SYNC','all','same-identity')")
@@ -58,6 +68,7 @@ class TestSchema(unittest.TestCase):
     def test_cannot_mark_integration_operational_without_flags(self):
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.execute("INSERT INTO integration_connections(id,service_name,is_operational) VALUES('i1','Gmail',1)")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

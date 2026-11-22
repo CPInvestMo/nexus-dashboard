@@ -1,0 +1,22 @@
+{
+  "id": "/nexus-dashboard/",
+  "name": "NAEL | Central Command Center",
+  "short_name": "NAEL",
+  "description": "Secure links to verified NAEL project workspaces. This gateway does not perform backend operations.",
+  "start_url": "/nexus-dashboard/",
+  "scope": "/nexus-dashboard/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#09111e",
+  "theme_color": "#0b162a",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

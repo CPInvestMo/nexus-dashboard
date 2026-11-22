@@ -112,7 +112,7 @@ export class NaelQaDeduper {
    if(typeof data?.key!=="string"||!/^[a-f0-9]{64}$/.test(data.key))return textResponse("Bad key",400);
    const now=Date.now();
    // periodic eviction keeps retention bounded, prevents unbounded persistent metadata.
-   if(Math.random()<0.01)this.ctx.storage.sql.exec("DELETE FROM seen WHERE at < ?",now-DAY_MS);
+   this.ctx.storage.sql.exec("DELETE FROM seen WHERE at < ?",now-DAY_MS);
    const cur=this.ctx.storage.sql.exec("INSERT OR IGNORE INTO seen (key,at) VALUES (?,?)",data.key,now);
    return jsonResponse({duplicate:cur.rowsWritten===0});
  }

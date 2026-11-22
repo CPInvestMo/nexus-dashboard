@@ -10,7 +10,7 @@ self.addEventListener('fetch',event=>{
     event.respondWith(fetch(event.request).catch(()=>caches.match('./index.html')));return;
   }
   // Keep app code current online while still allowing offline PWA fallback.
-  if(/\\/(?:app\\.js|styles\\.css)$/.test(u.pathname)){
+  if(/\/(?:app\.js|styles\.css)$/.test(u.pathname)){
     event.respondWith(fetch(event.request).then(response=>{
       if(response.ok){const copy=response.clone();event.waitUntil(caches.open(CACHE).then(cache=>cache.put(event.request,copy)));}
       return response;

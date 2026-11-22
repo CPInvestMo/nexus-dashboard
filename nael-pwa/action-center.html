@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10253c"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NAEL Desk"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="NAEL private action and notification desk. Local data only, no automatic outreach.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="./icons/favicon-192.png"><link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="manifest" href="./action-manifest.webmanifest">
+<title>NAEL | Execution Desk</title>
+<style>
+:root{--navy:#11273c;--blue:#205c88;--green:#087b66;--gold:#d6a95c;--paper:#f4f7f9;--ink:#183046;--muted:#718596;--line:#e1e8ed;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}button,a,input,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.layout{max-width:1150px;margin:auto;padding:24px 21px 125px}.head{background:linear-gradient(125deg,#10273e,#1b4761);border-radius:24px;padding:27px 30px;color:white;box-shadow:0 14px 34px #18344917;position:relative;overflow:hidden}.head:after{content:"N.";position:absolute;left:-8px;top:-52px;font-size:225px;color:#ffffff09;font-weight:900;pointer-events:none}
+.head-top{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:12px;color:#d0e2ec;position:relative;z-index:1}.brand{letter-spacing:1px;font-weight:900;font-size:14px}.head h1{font-size:clamp(25px,4vw,41px);margin:28px 0 9px;position:relative;z-index:1}.head p{font-size:14px;color:#d3e3ec;line-height:1.8;margin:0;position:relative;z-index:1;max-width:760px}.head-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px;position:relative;z-index:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;border-radius:11px;padding:9px 13px;font-weight:780;font-size:12px;border:1px solid var(--line);background:#fff;color:var(--ink);line-height:1.5}.btn-main{background:var(--green);color:white;border-color:var(--green)}.btn-gold{background:var(--gold);color:#142d40;border-color:var(--gold)}.btn-ghost{background:#ffffff15;color:white;border:1px solid #ffffff55}.btn:disabled{opacity:.5;cursor:not-allowed}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:18px 0}.stat{background:white;border:1px solid var(--line);padding:19px 16px;border-radius:17px}.stat strong{font-size:28px;display:block;line-height:1.1}.stat span{font-size:12px;color:var(--muted);display:block;margin-top:8px;font-weight:650}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:21px 0 17px}.tab{padding:10px 15px;border-radius:13px;border:1px solid var(--line);background:#fff;color:#547085;font-weight:750;font-size:13px}.tab.active{background:var(--navy);color:white;border-color:var(--navy)}.notice{padding:14px 17px;background:#fff7e9;border:1px solid #eed7ad;border-radius:14px;color:#785526;font-size:12px;line-height:1.8;margin-bottom:17px}.notice b{font-weight:850}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 12px}.section-title h2{font-size:19px;margin:0}.section-title small{font-size:12px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{background:white;border:1px solid var(--line);border-radius:19px;padding:19px;box-shadow:0 4px 20px #102c4110;display:flex;flex-direction:column;gap:12px}.card.priority{border-right:4px solid var(--gold)}.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.small{font-size:11px;color:var(--muted)}.pill{font-size:10px;font-weight:850;padding:6px 10px;border-radius:999px;color:#164a64;background:#e8f2f7;white-space:nowrap}.pill.p0{background:#f9e9c9;color:#885616}.pill.done{background:#ddf5e9;color:#18724f}.card h3{font-size:17px;line-height:1.5;margin:0}.card p{font-size:13px;line-height:1.8;color:#637789;margin:0}.next{background:#f0f5f8;border-radius:11px;padding:12px;font-size:12px;line-height:1.8}.next b{color:#244d66}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.actions .btn{flex:1 1 auto}.status{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:12px}.status label{font-size:11px;color:var(--muted);font-weight:750}.status select{background:#f7fafc;border:1px solid #d4e0e8;border-radius:9px;padding:7px;font-size:12px;max-width:185px;color:var(--ink)}.empty{background:white;padding:28px;border-radius:14px;color:var(--muted);line-height:1.8;text-align:center}
+.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:20px;margin:12px 0}.panel h3{margin:0 0 12px;font-size:17px}.panel p,.panel li{font-size:13px;line-height:1.8;color:#5c7486}.panel ol{padding-right:20px}.toolrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.muted{color:var(--muted)}.hide{display:none!important}.foot{text-align:center;font-size:11px;line-height:1.9;color:#8195a3;margin-top:26px}.toast{position:fixed;bottom:85px;right:16px;left:16px;margin:auto;max-width:450px;padding:15px;background:#173b52;color:white;text-align:center;border-radius:12px;z-index:50;box-shadow:0 10px 38px #102a4440;display:none;font-size:13px}.toast.show{display:block}.footer-nav{display:none}
+@media(max-width:700px){.layout{padding:12px 12px 110px}.head{border-radius:18px;padding:22px 18px}.head h1{margin-top:19px}.head-actions .btn{font-size:11px}.cards{grid-template-columns:1fr}.card{padding:17px}.stats{gap:7px}.stat{padding:13px 11px;border-radius:12px}.stat strong{font-size:22px}.stat span{font-size:10px}.nav{overflow:auto;flex-wrap:nowrap;white-space:nowrap;margin-top:15px}.tab{padding:10px;font-size:12px}.footer-nav{display:flex;position:fixed;bottom:0;left:0;right:0;justify-content:space-around;padding:9px 8px calc(11px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fffffff2;backdrop-filter:blur(12px);z-index:20}.footer-nav a{font-size:11px;color:#41627a;font-weight:750;padding:6px 10px}.toast{bottom:85px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<header class="head">
+<div class="head-top"><span class="brand">NAEL / CPI</span><span>PRIVATE / SOURCE-GATED</span></div>
+<h1>Execution Desk</h1>
+<p>مركز تنبيهات وخطوات تنفيذ جاهزة. بياناتك الخاصة لا تُرسل إلى هذا الموقع؛ استورد نسخة JSON على جهازك عند الحاجة. الروابط تفتح مسودات فقط ولا ترسلها.</p>
+<div class="head-actions">
+<a class="btn btn-ghost" href="./">الداشبورد الرئيسية</a>
+<button class="btn btn-gold" id="importTop">استيراد ملف JSON خاص</button>
+<button class="btn btn-ghost" id="exportTop">تصدير JSON</button>
+</div>
+</header>
+<div class="stats"><div class="stat"><strong id="statOpen">0</strong><span>تنبيهات تحتاج إجراء</span></div><div class="stat"><strong id="statP0">0</strong><span>أولوية P0</span></div><div class="stat"><strong id="statDone">0</strong><span>مغلقة / موثقة</span></div></div>
+<div class="nav" id="tabs">
+<button class="tab active" data-tab="inbox">التنبيهات</button>
+<button class="tab" data-tab="deals">الصفقات</button>
+<button class="tab" data-tab="channels">القنوات</button>
+<button class="tab" data-tab="settings">الإعدادات والنسخ</button>
+</div>
+<div class="notice" id="disclosure"><b>حماية البيانات:</b> الواجهة المنشورة عامة لكن بيانات العملاء لا تُحمّل إلا من ملف تختاره بنفسك. أي تعديل في الحالة يتطلب تصدير JSON لحفظه. إشعارات الهاتف التلقائية عند إغلاق التطبيق غير مفعّلة دون خدمة Push معتمدة.</div>
+<section id="inboxPage"><div class="section-title"><h2>صندوق التنبيهات</h2><small id="sourceLabel">نماذج تشغيل بدون بيانات عملاء</small></div><div id="cards" class="cards"></div></section>
+<section id="dealsPage" class="hide"><div class="section-title"><h2>فرص الإيراد</h2><small>لا يُحتسب الإيراد بدون إثبات التحصيل</small></div><div id="dealCards" class="cards"></div></section>
+<section id="channelsPage" class="hide"><div class="section-title"><h2>خطوات ربط القنوات</h2></div><div id="channelCards" class="cards"></div></section>
+<section id="settingsPage" class="hide">
+<div class="panel"><h3>ملف Google Sheets الخاص</h3><p>لا يتم حفظ معرّف الشيت ولا مفتاح OAuth في ملفات GitHub. افتح شيتك بحسابك، وتحقق من الصلاحيات بنفسك.</p><div class="toolrow"><a href="https://drive.google.com/drive/my-drive" class="btn" target="_blank" rel="noopener noreferrer">افتح Google Drive</a><a class="btn" href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer">إعداد Google OAuth</a><button class="btn" data-action="copyPreset" data-preset="google">نسخ تعليمات الربط</button></div><p>Google Sheets داخل الموقع الأصلي: قراءة فقط باستخدام spreadsheets.readonly وبعد تفويض Google. هذا المركز لا يطلب رموز دخول أو صلاحيات كتابة.</p></div>
+<div class="panel"><h3>إشعارات iPhone</h3><p>التنبيهات تظهر هنا عند فتح التطبيق أو استيراد أحدث ملف. زر الاختبار يطلب إذن الإشعارات ولا يفعّل Push في الخلفية.</p><div class="toolrow"><button id="testNotify" class="btn btn-main">اختبار إشعار على الجهاز</button><a href="https://support.apple.com/guide/iphone/bookmark-a-website-iph42ab2f3a7/ios" class="btn" target="_blank" rel="noopener noreferrer">إضافة إلى الشاشة الرئيسية</a></div></div>
+<div class="panel"><h3>البيانات والنسخ الاحتياطي</h3><p>الحفظ التلقائي مقفول، والبيانات المستوردة تبقى في ذاكرة الصفحة فقط حتى تصدّر ملف JSON بنفسك. لا يتم تخزين بيانات العملاء في GitHub أو نقلها إلى طرف خارجي من هذا الموقع.</p><div class="toolrow"><button class="btn btn-main" id="exportSettings">تصدير ملف JSON</button><button class="btn" id="importSettings">استيراد JSON</button><button class="btn" id="clearData">مسح البيانات المستوردة</button></div><p id="dataStatus" class="muted">لم يتم تحميل بيانات خاصة.</p></div>
+<div class="panel"><h3>Instagram CPI — Bio مقترح</h3><p id="bioText" dir="ltr">Crystal Power Investments | Research, market insights & business operations | Evidence-based analysis | Egypt</p><div class="toolrow"><button class="btn btn-main" id="copyBio">نسخ السيرة الجديدة</button><a class="btn" href="https://www.instagram.com/accounts/edit/" target="_blank" rel="noopener noreferrer">فتح تعديل Instagram</a></div><p>المسودة فقط، لا نشر تلقائي ولا ادعاءات أرباح مضمونة.</p></div>
+</section>
+<footer class="foot">NAEL | QA Private / Source-Gated | لا إرسال خارجي تلقائي | لا بيانات عملاء في ملفات الموقع العامة</footer>
+</div>
+<nav class="footer-nav"><a href="./">الرئيسية</a><a href="#inbox" data-go="inbox">التنبيهات</a><a href="#deals" data-go="deals">الصفقات</a><a href="#channels" data-go="channels">القنوات</a></nav>
+<div class="toast" id="toast" role="status"></div><input id="jsonFile" type="file" accept=".json,application/json" hidden>
+<script>
+'use strict';
+(function(){
+const defaults=[
+{id:'p0-rent',priority:'P0',type:'deal',title:'تحقق من عرض إيجار مفروش',summary:'تأكيد التوافر والمدة والسعر النهائي قبل التواصل مع المستأجر.',next:'تحقق من جهة العرض؛ لا تفترض أن الطلب أو العرض ما زال قائمًا.',status:'لم يبدأ',source:'MatchPro / original report required',prompt:'اعمل تدقيقًا من مصادر MatchPro الأصلية فقط لطلب إيجار مفروش غرفتين: تحقق من التوافر والمدة والتكلفة والعمولة، وميّز الطلب الحقيقي من إعلان العرض والتكرار. لا ترسل لأي طرف دون موافقة منفصلة.'},
+{id:'google-read',priority:'P0',type:'channel',title:'Google Sheets — قراءة آمنة',summary:'مزامنة الموقع الأصلي تحتاج Web OAuth Client مفوضًا للقراءة فقط.',next:'راجع Authorized JavaScript origin، فعّل Sheets API، ثم اختبر spreadsheets.readonly.',status:'محجوب بتفويض',url:'https://console.cloud.google.com/apis/credentials',prompt:'استكمل NAEL Google OAuth على الموقع المنشور باستخدام Web Client ID عام فقط، authorized JavaScript origin https://nael-command-center-mm.vastpastry2.chatgpt.site، وscope spreadsheets.readonly. لا تخزن client secret في الواجهة، ولا تمنح كتابة. اعرض نتيجة اختبار قراءة فعلية.'},
+{id:'wa-webhook',priority:'P1',type:'channel',title:'WhatsApp — QA webhook معزول',summary:'لا يوجد Webhook حي موثّق. لا تُعدّل إعدادات WhatsApp Business الحالية أو حجوزات Outlook.',next:'راجع أذونات Meta وبيئة Cloudflare Free، اختبر challenge ثم HMAC بتجربة اصطناعية.',status:'محجوب بتفويض',url:'https://developers.facebook.com/apps/',prompt:'ضع خطة اختبار QA Worker معزول على Cloudflare Free لاستقبال WhatsApp webhook رسمي باستخدام verify token من مخزن أسرار، والتحقق من HMAC-SHA256، منع التكرار وتسجيل أقل بيانات ممكنة. لا تربط Production أو ترسل رسائل حتى يوافق المالك.'},
+{id:'ig-bio',priority:'P1',type:'channel',title:'Instagram CPI — تعديل Bio',summary:'استبدال عبارة Guaranteed بعبارة مهنية دقيقة.',next:'انسخ النص المقترح، افتح حساب Instagram، وراجعه قبل النشر.',status:'مسودة جاهزة',url:'https://www.instagram.com/accounts/edit/',prompt:'راجع سيرة Instagram الخاصة بـCrystal Power Investments لتجنب وعود Guaranteed أو أي ضمان عائد. اقترح صياغة مهنية قصيرة بلا ادعاءات غير مثبتة، ولا تنشر قبل اعتماد المالك.'},
+{id:'messenger',priority:'P1',type:'channel',title:'Facebook Messenger — صلاحية',summary:'قراءة Messenger مرفوضة بخطأ Meta #200 حسب آخر تدقيق.',next:'تحقق من pages_messaging، دور الصفحة، وموافقة Meta App الرسمية.',status:'محجوب بتفويض',url:'https://business.facebook.com/latest/inbox/',prompt:'افحص دور حساب Meta Business على صفحة Crystal Power والصلاحيات المطلوبة لقراءة Messenger رسميًا، خاصة pages_messaging وخطأ #200. قراءة فقط؛ لا إرسال أو تعديل أدوار دون موافقة.'},
+{id:'googlebusiness',priority:'P2',type:'channel',title:'Google Business Profile',summary:'لا يوجد موقع تجاري موصول تم التحقق منه.',next:'تحقق هل توجد منشأة مؤهلة ثم اربط الحساب من Google رسميًا.',status:'لم يبدأ',url:'https://business.google.com/',prompt:'راجع هل لدى Crystal Power Investments ملف Google Business مؤهل ونشط. لا تنشئ موقعًا وهميًا ولا تدّعِ عنوانًا لم يُثبت. اعرض متطلبات الربط الرسمية وخيار القراءة فقط.'},
+{id:'linkedin',priority:'P2',type:'channel',title:'LinkedIn — متابعة الاستئناف',summary:'الحساب الأصلي مقيد؛ لا تحاول تجاوز القيود أو إنشاء هوية بديلة.',next:'افتح القضية الرسمية وراجع رد الدعم.',status:'في انتظار رد',url:'https://www.linkedin.com/help/linkedin/cases',prompt:'راجع حالة استئناف الحساب LinkedIn الأصلي بصورة رسمية، وحدد هل وصل رد من الدعم وأهم الخطوات المسموحة. لا ترسل بطاقة هوية إلا عبر قناة الدعم الآمنة.'}
+];
+const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const allowed=['لم يبدأ','جارٍ التحقق','في انتظار رد','محجوب بتفويض','مسودة جاهزة','مؤكد بدليل','مغلق'];
+let items=defaults.map(x=>Object.assign({},x));let imported=false,dirty=false,loadedAt='';
+const el=id=>document.getElementById(id);
+function toast(s){el('toast').textContent=s;el('toast').classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el('toast').classList.remove('show'),4500)}
+function isClosed(x){return x.status==='مغلق'||x.status==='مؤكد بدليل'}
+function makeUrl(v){try{const u=new URL(String(v));return (u.protocol==='https:'||u.protocol==='mailto:')?u.href:''}catch(e){return ''}}
+function phoneNumber(raw){let s=String(raw||'').replace(/\D/g,'');if(s.indexOf('0020')===0)s=s.slice(2);if(s.indexOf('01')===0)s='2'+s;if(s.indexOf('20')===0&&s.length===12)return s;return ''}
+function card(x){
+const go=makeUrl(x.url||'');
+let c='<article class="card '+(x.priority==='P0'?'priority':'')+'"><div class="card-top"><span class="pill '+(x.priority==='P0'?'p0':'')+'">'+E(x.priority||'P2')+'</span><span class="small">'+E(x.sourceAt||'')+'</span></div><h3>'+E(x.title)+'</h3><p>'+E(x.summary||'')+'</p><div class="next"><b>الخطوة التالية: </b>'+E(x.next||'التحقق من المصدر')+'</div><div class="actions">';
+c+='<button class="btn btn-main" data-act="prompt" data-id="'+E(x.id)+'">نسخ Prompt وفتح ChatGPT</button>';
+if(go)c+='<a class="btn" href="'+E(go)+'" target="_blank" rel="noopener noreferrer">فتح الإجراء</a>';
+if(phoneNumber(x.phone))c+='<button class="btn" data-act="whatsapp" data-id="'+E(x.id)+'">فتح مسودة WhatsApp</button>';
+c+='</div><div class="status"><label for="status-'+E(x.id)+'">حالة التنفيذ</label><select id="status-'+E(x.id)+'" data-status="'+E(x.id)+'">';
+allowed.forEach(s=>c+='<option '+(x.status===s?'selected':'')+'>'+E(s)+'</option>');
+c+='</select></div>';
+if(x.source)c+='<div class="small">المصدر: '+E(x.source)+'</div>';
+c+='</article>';return c;
+}
+function draw(){
+el('statOpen').textContent=items.filter(x=>!isClosed(x)).length;
+el('statP0').textContent=items.filter(x=>!isClosed(x)&&x.priority==='P0').length;
+el('statDone').textContent=items.filter(isClosed).length;
+el('cards').innerHTML=items.filter(x=>!isClosed(x)).map(card).join('')||'<div class="empty">لا توجد تنبيهات مفتوحة في النسخة الحالية.</div>';
+el('dealCards').innerHTML=items.filter(x=>x.type==='deal').map(card).join('')||'<div class="empty">لا توجد فرص عقارية مستوردة بعد.</div>';
+el('channelCards').innerHTML=items.filter(x=>x.type==='channel').map(card).join('');
+el('sourceLabel').textContent=imported?'نسخة خاصة مستوردة من جهازك — لا مزامنة حية':'قائمة عامة بدون أرقام عملاء';
+el('dataStatus').textContent=imported?'تم استيراد '+items.length+' سجل. '+(dirty?'هناك تغييرات تحتاج تصدير JSON.':'البيانات داخل ذاكرة الصفحة فقط.'):'النسخة المعروضة عامة. استورد JSON الخاص من جهازك لعرض بياناتك.';
+}
+function setTab(key){['inbox','deals','channels','settings'].forEach(s=>{el(s+'Page').classList.toggle('hide',s!==key)});document.querySelectorAll('[data-tab]').forEach(t=>t.classList.toggle('active',t.dataset.tab===key));window.scrollTo(0,0)}
+async function copy(text){try{await navigator.clipboard.writeText(text);return true}catch(e){const t=document.createElement('textarea');t.value=text;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();return ok}}
+function doPrompt(x){const prompt=x.prompt||('اعمل الخطوة التالية لمهمة '+x.title+': '+x.next+'. تحقّق من المصدر، لا ترسل لأي طرف أو تنفق مالًا بدون موافقة.');copy(prompt).then(ok=>{toast(ok?'تم نسخ Prompt. سيفتح ChatGPT الآن.':'لم يتم النسخ؛ استخدم تصدير JSON ثم انسخ يدويًا.');window.open('https://chatgpt.com/','_blank','noopener,noreferrer')})}
+function doWA(x){const num=phoneNumber(x.phone);if(!num){toast('رقم WhatsApp غير متاح أو غير صالح');return}const text=x.draft||('مساء الخير، بخصوص '+x.title+'، هل الطلب أو العرض ما زال قائمًا؟ محتاج تأكيد التفاصيل. شكرًا.');window.open('https://wa.me/'+num+'?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');toast('تم فتح المسودة فقط؛ لا يوجد إرسال تلقائي.')}
+function exportJson(){const payload={schema:'nael-action-desk-v1',updatedAt:new Date().toISOString(),notifications:items};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='NAEL_Private_Action_Desk_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);dirty=false;draw();toast('تم بدء تصدير JSON. احتفظ به في ملفاتك الخاصة.')}
+async function load(file){if(!file)return;if(file.size>3000000){toast('الملف كبير جدًا');return}try{const d=JSON.parse(await file.text());const a=Array.isArray(d.notifications)?d.notifications:[];if(!a.length||a.length>250)throw Error('invalid array');const ids=new Set;const cleaned=a.map((v,i)=>{const x={};['id','title','summary','next','priority','type','status','source','sourceAt','phone','draft','prompt','url'].forEach(k=>x[k]=String(v[k]||'').slice(0,k==='draft'||k==='prompt'?1200:500));x.id=x.id||'import-'+i;if(ids.has(x.id))x.id+='-'+i;ids.add(x.id);x.status=allowed.includes(x.status)?x.status:'لم يبدأ';x.priority=['P0','P1','P2'].includes(x.priority)?x.priority:'P2';x.type=x.type==='deal'?'deal':'channel';return x});
+items=cleaned;imported=true;dirty=false;loadedAt=new Date().toISOString();draw();toast('تم تحميل '+items.length+' تنبيه خاص في ذاكرة الصفحة فقط.');}catch(e){toast('ملف JSON غير صالح. راجع البنية المطلوبة.')}}
+document.addEventListener('click',e=>{
+const tab=e.target.closest('[data-tab]');if(tab){setTab(tab.dataset.tab);return}
+const go=e.target.closest('[data-go]');if(go){setTab(go.dataset.go);return}
+const b=e.target.closest('[data-act]');if(!b)return;
+const item=items.find(x=>x.id===b.dataset.id);if(b.dataset.act==='prompt'&&item)doPrompt(item);
+if(b.dataset.act==='whatsapp'&&item)doWA(item);
+if(b.dataset.act==='copyPreset'){const x=items.find(x=>x.id==='google-read')||defaults[1];copy(x.prompt).then(()=>toast('تم نسخ تعليمات الربط.'))}
+});
+document.addEventListener('change',e=>{
+const id=e.target.dataset.status;if(!id)return;const item=items.find(x=>x.id===id);if(item&&allowed.includes(e.target.value)){item.status=e.target.value;dirty=true;draw();toast('تم تغيير الحالة داخل الصفحة. صدّر ملف JSON لحفظ التغيير.')}
+});
+const showFile=()=>el('jsonFile').click();
+['importTop','importSettings'].forEach(id=>el(id).addEventListener('click',showFile));
+['exportTop','exportSettings'].forEach(id=>el(id).addEventListener('click',exportJson));
+el('jsonFile').addEventListener('change',e=>{load(e.target.files[0]);e.target.value=''});
+el('clearData').addEventListener('click',()=>{if(!confirm('مسح البيانات المستوردة من ذاكرة الصفحة؟'))return;items=defaults.map(x=>Object.assign({},x));imported=false;dirty=false;draw();toast('تم مسح البيانات المستوردة من الصفحة.')});
+el('copyBio').addEventListener('click',()=>copy(el('bioText').textContent).then(()=>toast('تم نسخ مسودة Instagram Bio. لم يتم نشرها.')));
+el('testNotify').addEventListener('click',async()=>{
+try{if(!('Notification' in window)){toast('واجهة إشعارات الويب غير متاحة. على iPhone ثبّت الموقع أولًا.');return}
+const permission=await Notification.requestPermission();
+if(permission!=='granted'){toast('لم يُمنح إذن الإشعارات.');return}
+if('serviceWorker' in navigator){const reg=await navigator.serviceWorker.ready;await reg.showNotification('NAEL | Execution Desk',{body:'إشعار اختبار بإذن المستخدم فقط. لا توجد مزامنة أو متابعة خلفية.',tag:'nael-manual-test'});toast('تم إرسال إشعار اختبار محلي على هذا الجهاز.')}else{new Notification('NAEL | Execution Desk',{body:'إشعار اختبار فقط.'});toast('تم اختبار إشعار الجهاز.')}
+}catch(err){toast('تعذر اختبار الإشعارات. ثبّت التطبيق وتحقق من الإذن.')}}
+);
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
+draw();
+})();
+</script>
+</body></html>

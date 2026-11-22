@@ -16,6 +16,23 @@ const safeEq = (a,b) => {
 };
 const hex = buffer => Array.from(new Uint8Array(buffer),b=>b.toString(16).padStart(2,"0")).join("");
 const digest = async text => hex(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text)));
+// Stream at most 64 KiB. Never buffer an untrusted oversized request in memory.
+async function readCapped(request){
+  if(!request.body)return new Uint8Array(0);
+  const reader=request.body.getReader(),chunks=[];
+  let length=0;
+  while(true){
+    const {done,value}=await reader.read();
+    if(done)break;
+    length+=value.byteLength;
+    if(length>MAX_BYTES){await reader.cancel().catch(()=>{});return null;}
+    chunks.push(value);
+  }
+  const output=new Uint8Array(length);
+  let offset=0;
+  for(const chunk of chunks){output.set(chunk,offset);offset+=chunk.byteLength;}
+  return output;
+}
 
 async function signatureValid(bytes, header, secret){
   if(typeof header!=="string" || !/^sha256=[a-f0-9]{64}$/i.test(header))return false;
@@ -25,8 +42,9 @@ async function signatureValid(bytes, header, secret){
 }
 function eventIds(payload){
   const result=[];
-  if(payload.object!=="whatsapp_business_account" || !Array.isArray(payload.entry)) return null;
+  if(!payload || typeof payload!=="object" || Array.isArray(payload) || payload.object!=="whatsapp_business_account" || !Array.isArray(payload.entry)) return null;
   for(const entry of payload.entry){
+    if(!entry || typeof entry!=="object" || Array.isArray(entry)) return null;
     for(const change of Array.isArray(entry.changes)?entry.changes:[]){
       const value=change?.value;
       for(const m of Array.isArray(value?.messages)?value.messages:[]){
@@ -72,8 +90,8 @@ export default {
      return textResponse("Unsupported content type",415);
    const len=Number(request.headers.get("content-length")||"0");
    if(len>MAX_BYTES)return textResponse("Payload too large",413);
-   const body=await request.arrayBuffer();
-   if(body.byteLength>MAX_BYTES)return textResponse("Payload too large",413);
+   const body=await readCapped(request);
+   if(body===null)return textResponse("Payload too large",413);
    const verified=await signatureValid(body,request.headers.get("x-hub-signature-256"),env.META_APP_SECRET);
    if(!verified)return textResponse("Invalid signature",401);
    let payload;
@@ -83,7 +101,8 @@ export default {
    if(ids===null)return textResponse("Not a WhatsApp event",422);
    // In QA, acknowledgement is not a trigger to send messages or contact customers.
    // Store only hashed event keys; never store raw body, names, phone numbers, message text, or tokens.
-   const selected=ids.length?Array.from(new Set(ids)).slice(0,100):["empty:"+await digest(new TextDecoder().decode(body))];
+   const selected=ids.length?Array.from(new Set(ids)):["empty:"+await digest(new TextDecoder().decode(body))];
+   if(selected.length>100)return textResponse("Too many events",413);
    const keyHashes=await Promise.all(selected.map(x=>digest("nael-qa-dedupe-v1:"+x)));
    const stub=env.QA_DEDUPE.get(env.QA_DEDUPE.idFromName("nael-wa-qa-isolated"));
    let unique=0,duplicate=0;

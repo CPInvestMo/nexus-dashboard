@@ -1,0 +1,30 @@
+name: NAEL Backend Foundation Checks
+on:
+  pull_request:
+    paths:
+      - 'nael-backend/**'
+      - '.github/workflows/nael-backend-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  migration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SQLite migration and persistence tests
+        run: python3 -m unittest discover -s nael-backend/tests -p 'test_*.py' -v
+  typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nael-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Type-check Worker
+        run: npm run typecheck
